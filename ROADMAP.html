@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Roadmap — OpenCV · cvzone · Face Recognition · YOLO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e14;
+    --bg-soft:#0d1219;
+    --surface:#131923;
+    --surface-2:#171f2b;
+    --border:#232c3a;
+    --border-strong:#33404f;
+    --text:#e7ecf2;
+    --text-dim:#8b96a5;
+    --text-faint:#576073;
+
+    --opencv:#00d9c0;
+    --opencv-dim:rgba(0,217,192,.12);
+    --cvzone:#ffb020;
+    --cvzone-dim:rgba(255,176,32,.12);
+    --face:#9d7bff;
+    --face-dim:rgba(157,123,255,.12);
+    --yolo:#ff5470;
+    --yolo-dim:rgba(255,84,112,.12);
+    --docker:#3ea6ff;
+    --docker-dim:rgba(62,166,255,.12);
+    --transformers:#4ade80;
+    --transformers-dim:rgba(74,222,128,.12);
+    --gold:#ffd166;
+
+    --font-display:'Space Grotesk',sans-serif;
+    --font-body:'Inter',sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(0,217,192,.07), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(255,84,112,.05), transparent 60%);
+    background-attachment:fixed;
+  }
+
+  a{color:inherit;}
+
+  ::selection{background:var(--opencv);color:#04110f;}
+
+  /* ---------- top nav ---------- */
+  .topnav{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;gap:6px;
+    padding:10px 20px;
+    background:rgba(10,14,20,.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .topnav::-webkit-scrollbar{display:none;}
+  .topnav-brand{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+    padding-right:14px;
+    margin-right:8px;
+    border-right:1px solid var(--border);
+    white-space:nowrap;
+  }
+  .topnav a{
+    flex:0 0 auto;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:.02em;
+    color:var(--text-dim);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+    transition:.15s;
+  }
+  .topnav a:hover{border-color:var(--border-strong);color:var(--text);}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;position:relative;top:-1px;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:920px;margin:0 auto;
+    padding:72px 24px 40px;
+    position:relative;
+  }
+  .scanline{
+    position:absolute;top:0;left:24px;right:24px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--opencv),transparent);
+    animation:scan 5s ease-in-out infinite;
+    opacity:.6;
+  }
+  @keyframes scan{
+    0%,100%{transform:translateY(0);opacity:0;}
+    50%{transform:translateY(160px);opacity:.7;}
+  }
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;color:var(--opencv);
+    letter-spacing:.12em;text-transform:uppercase;
+    display:flex;align-items:center;gap:8px;margin-bottom:18px;
+  }
+  .eyebrow::before{content:'';width:8px;height:8px;border:1.5px solid var(--opencv);transform:rotate(45deg);}
+  h1{
+    font-family:var(--font-display);
+    font-size:clamp(32px,5vw,52px);
+    font-weight:700;
+    letter-spacing:-.02em;
+    line-height:1.08;
+    margin-bottom:18px;
+  }
+  h1 span{color:var(--text-faint);}
+  .hero p.lead{
+    font-size:16.5px;color:var(--text-dim);max-width:640px;margin-bottom:28px;
+  }
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px;}
+  .meta-chip{
+    font-family:var(--font-mono);font-size:12px;
+    border:1px solid var(--border-strong);
+    padding:7px 12px;border-radius:6px;
+    color:var(--text-dim);
+    display:flex;align-items:center;gap:7px;
+  }
+  .meta-chip b{color:var(--text);font-weight:600;}
+
+  /* ---------- legend ---------- */
+  .legend{
+    max-width:920px;margin:0 auto;padding:0 24px 8px;
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .tag{
+    font-family:var(--font-mono);font-size:11px;
+    padding:5px 10px;border-radius:5px;
+    border:1px solid;display:inline-flex;align-items:center;gap:6px;
+  }
+  .tag-opencv{color:var(--opencv);border-color:rgba(0,217,192,.35);background:var(--opencv-dim);}
+  .tag-cvzone{color:var(--cvzone);border-color:rgba(255,176,32,.35);background:var(--cvzone-dim);}
+  .tag-face{color:var(--face);border-color:rgba(157,123,255,.35);background:var(--face-dim);}
+  .tag-yolo{color:var(--yolo);border-color:rgba(255,84,112,.35);background:var(--yolo-dim);}
+  .tag-docker{color:var(--docker);border-color:rgba(62,166,255,.35);background:var(--docker-dim);}
+  .tag-transformers{color:var(--transformers);border-color:rgba(74,222,128,.35);background:var(--transformers-dim);}
+
+  /* ---------- main ---------- */
+  main{max-width:920px;margin:0 auto;padding:20px 24px 100px;}
+
+  .section-label{
+    font-family:var(--font-mono);font-size:12px;color:var(--text-faint);
+    letter-spacing:.1em;text-transform:uppercase;
+    margin:48px 0 14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  /* prereq */
+  .prereq{
+    border:1px dashed var(--border-strong);
+    border-radius:10px;padding:20px 22px;
+    background:var(--bg-soft);
+  }
+  .prereq h3{font-family:var(--font-display);font-size:17px;margin-bottom:8px;}
+  .prereq p{color:var(--text-dim);font-size:14.5px;}
+  .prereq ul{margin-top:10px;padding-left:18px;color:var(--text-dim);font-size:14.5px;}
+  .prereq li{margin-bottom:4px;}
+
+  /* phase card */
+  details.phase{
+    border:1px solid var(--border);
+    border-radius:12px;
+    margin-bottom:16px;
+    background:var(--surface);
+    overflow:hidden;
+    scroll-margin-top:70px;
+  }
+  details.phase[open]{border-color:var(--border-strong);}
+  details.phase summary{
+    list-style:none;cursor:pointer;
+    padding:20px 22px;
+    display:flex;align-items:center;gap:16px;
+  }
+  details.phase summary::-webkit-details-marker{display:none;}
+
+  .ph-num{
+    font-family:var(--font-mono);font-size:13px;font-weight:600;
+    width:44px;height:44px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:8px;position:relative;
+  }
+  .ph-num::before,.ph-num::after{
+    content:'';position:absolute;width:8px;height:8px;
+    border-color:inherit;
+  }
+  .corner-box{position:relative;}
+  .corner-box b.c{position:absolute;width:9px;height:9px;border:1.5px solid currentColor;opacity:.9;}
+  .corner-box b.tl{top:-1px;left:-1px;border-right:0;border-bottom:0;}
+  .corner-box b.tr{top:-1px;right:-1px;border-left:0;border-bottom:0;}
+  .corner-box b.bl{bottom:-1px;left:-1px;border-right:0;border-top:0;}
+  .corner-box b.br{bottom:-1px;right:-1px;border-left:0;border-top:0;}
+
+  .ph-head{flex:1;min-width:0;}
+  .ph-title{font-family:var(--font-display);font-weight:600;font-size:18px;margin-bottom:4px;}
+  .ph-sub{font-size:13px;color:var(--text-dim);display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .ph-sub .sep{color:var(--text-faint);}
+  .chev{
+    font-family:var(--font-mono);color:var(--text-faint);font-size:18px;
+    transition:transform .2s;flex:0 0 auto;
+  }
+  details[open] .chev{transform:rotate(45deg);}
+
+  .phase-body{padding:2px 22px 24px 82px;}
+  .phase-desc{color:var(--text-dim);font-size:14px;margin-bottom:16px;max-width:600px;}
+
+  ol.days{list-style:none;}
+  ol.days li{
+    display:flex;gap:12px;align-items:flex-start;
+    padding:9px 0;border-top:1px solid var(--border);
+    font-size:14.5px;
+  }
+  ol.days li:first-child{border-top:none;}
+  ol.days input[type=checkbox]{
+    appearance:none;-webkit-appearance:none;
+    width:16px;height:16px;flex:0 0 auto;margin-top:3px;
+    border:1.5px solid var(--border-strong);border-radius:4px;
+    cursor:pointer;position:relative;
+  }
+  ol.days input[type=checkbox]:checked{background:var(--opencv);border-color:var(--opencv);}
+  ol.days input[type=checkbox]:checked::after{
+    content:'';position:absolute;left:4px;top:1px;width:4px;height:8px;
+    border:solid #04110f;border-width:0 2px 2px 0;transform:rotate(45deg);
+  }
+  ol.days li label{flex:1;}
+  ol.days li label .d{
+    font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);margin-right:8px;
+  }
+  ol.days li:has(input:checked) label{color:var(--text-faint);text-decoration:line-through;text-decoration-color:var(--border-strong);}
+
+  /* mini project card */
+  .project{
+    margin-top:18px;
+    border-radius:10px;
+    padding:16px 18px;
+    display:flex;gap:14px;align-items:flex-start;
+  }
+  .project .pi{
+    font-family:var(--font-mono);font-size:10.5px;
+    letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 8px;border-radius:4px;flex:0 0 auto;margin-top:2px;
+  }
+  .project h4{font-family:var(--font-display);font-size:15px;margin-bottom:4px;}
+  .project p{font-size:13.5px;color:var(--text-dim);}
+
+  .op-project{background:var(--opencv-dim);border:1px solid rgba(0,217,192,.25);}
+  .op-project .pi{background:var(--opencv);color:#04110f;}
+  .cv-project{background:var(--cvzone-dim);border:1px solid rgba(255,176,32,.25);}
+  .cv-project .pi{background:var(--cvzone);color:#251700;}
+  .fc-project{background:var(--face-dim);border:1px solid rgba(157,123,255,.25);}
+  .fc-project .pi{background:var(--face);color:#160b3d;}
+  .yl-project{background:var(--yolo-dim);border:1px solid rgba(255,84,112,.25);}
+  .yl-project .pi{background:var(--yolo);color:#390010;}
+  .dk-project{background:var(--docker-dim);border:1px solid rgba(62,166,255,.25);}
+  .dk-project .pi{background:var(--docker);color:#001b38;}
+  .tf-project{background:var(--transformers-dim);border:1px solid rgba(74,222,128,.25);}
+  .tf-project .pi{background:var(--transformers);color:#04240f;}
+
+  .project-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;}
+  .project-pair .project{margin:0;height:100%;}
+  .project .diff{
+    display:block;font-size:9.5px;font-weight:400;letter-spacing:.04em;
+    opacity:.75;margin-top:1px;text-transform:none;
+  }
+  @media(max-width:640px){
+    .project-pair{grid-template-columns:1fr;}
+  }
+
+  /* capstone */
+  .capstone{
+    border:1px solid var(--border-strong);
+    border-radius:14px;
+    padding:2px;
+    background:linear-gradient(135deg,var(--opencv),var(--face),var(--yolo),var(--cvzone));
+    margin-top:8px;
+  }
+  .capstone-inner{
+    background:var(--bg-soft);
+    border-radius:12px;
+    padding:26px 26px 28px;
+  }
+  .capstone-tag{
+    font-family:var(--font-mono);font-size:11px;color:var(--gold);
+    letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .capstone-tag::before{content:'';width:7px;height:7px;background:var(--gold);border-radius:50%;}
+  .capstone h2{font-family:var(--font-display);font-size:24px;margin-bottom:10px;}
+  .capstone > .capstone-inner > p.lead{color:var(--text-dim);font-size:14.5px;margin-bottom:20px;max-width:640px;}
+
+  .stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:22px;}
+  .stack-item{
+    border:1px solid var(--border);border-radius:8px;padding:12px 14px;background:var(--surface);
+  }
+  .stack-item .role{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;}
+  .stack-item p{font-size:13px;color:var(--text-dim);}
+
+  .capstone ol.days{margin-top:6px;}
+  .capstone ol.days li{border-top-color:var(--border-strong);}
+
+  footer{
+    max-width:920px;margin:0 auto;padding:40px 24px 80px;
+    border-top:1px solid var(--border);
+    color:var(--text-faint);font-size:13px;
+  }
+  footer p{margin-bottom:6px;}
+  footer .fmono{font-family:var(--font-mono);}
+
+  @media(max-width:640px){
+    .phase-body{padding-left:22px;}
+    details.phase summary{padding:16px;gap:12px;}
+    .ph-num{width:36px;height:36px;font-size:11px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <span class="topnav-brand">CV_ROADMAP.exe</span>
+  <a href="#prereq">00 · Prereq</a>
+  <a href="#phase-1"><span class="dot" style="background:var(--opencv)"></span>01 · OpenCV asos</a>
+  <a href="#phase-2"><span class="dot" style="background:var(--opencv)"></span>02 · OpenCV o'rta</a>
+  <a href="#phase-3"><span class="dot" style="background:var(--cvzone)"></span>03 · cvzone</a>
+  <a href="#phase-4"><span class="dot" style="background:var(--face)"></span>04 · face_recognition</a>
+  <a href="#phase-5"><span class="dot" style="background:var(--yolo)"></span>05 · YOLO</a>
+  <a href="#phase-6"><span class="dot" style="background:var(--docker)"></span>06 · Docker</a>
+  <a href="#phase-7"><span class="dot" style="background:var(--transformers)"></span>07 · Transformers</a>
+</nav>
+
+<header class="hero">
+  <div class="scanline"></div>
+  <div class="eyebrow">Computer Vision · 0 dan Professional darajagacha</div>
+  <h1>OpenCV → cvzone → Face&nbsp;Recognition → YOLO <span>roadmap</span></h1>
+  <p class="lead">
+    Kunlik vazifalar bilan, sodda va tushunarli tartibda tuzilgan yo'l xaritasi. Har bosqich oxirida
+    ikkita loyiha bor — biri <b>sodda</b>, biri <b>o'rtadan sal qiyinroq</b> — shu orqali bilim
+    bosqichma-bosqich mustahkamlanadi.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-chip">⧗ <b>~10–11 hafta</b> (kuniga 1.5–2 soat)</div>
+    <div class="meta-chip">◧ <b>66 kun</b> + prereq</div>
+    <div class="meta-chip">▣ <b>7</b> bosqich × <b>2</b> loyiha = <b>14</b> loyiha</div>
+    <div class="meta-chip">◆ Daraja: <b>0 → Professional</b></div>
+  </div>
+</header>
+
+<div class="legend">
+  <span class="tag tag-opencv">● OpenCV</span>
+  <span class="tag tag-cvzone">● cvzone</span>
+  <span class="tag tag-face">● face_recognition</span>
+  <span class="tag tag-yolo">● YOLO</span>
+  <span class="tag tag-docker">● Docker</span>
+  <span class="tag tag-transformers">● Transformers</span>
+</div>
+
+<main>
+
+  <div class="section-label" id="prereq">Boshlashdan oldin</div>
+  <div class="prereq">
+    <h3>Kun 0 — Fundament</h3>
+    <p>Agar quyidagilarni bilmasangiz, roadmapni boshlashdan oldin 1-2 kun shularga ajrating — aks holda keyingi bosqichlar qiyin tuyuladi.</p>
+    <ul>
+      <li>Python asoslari: o'zgaruvchilar, sikllar, funksiyalar, klasslar (OOP asoslari)</li>
+      <li>NumPy asoslari: array yaratish, shape, slicing, indexlash</li>
+      <li>pip / virtual environment (venv) bilan ishlash</li>
+      <li>Terminal/bash asosiy buyruqlari</li>
+    </ul>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="section-label">Bosqich 01</div>
+  <details class="phase" id="phase-1" open>
+    <summary>
+      <div class="ph-num corner-box" style="color:var(--opencv);background:var(--opencv-dim);">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        01
+      </div>
+      <div class="ph-head">
+        <div class="ph-title">OpenCV — Asoslar</div>
+        <div class="ph-sub">
+          <span class="tag tag-opencv">OpenCV</span>
+          <span class="sep">·</span> 1 hafta <span class="sep">·</span> Kun 1–7
+        </div>
+      </div>
+      <div class="chev">+</div>
+    </summary>
+    <div class="phase-body">
+      <p class="phase-desc">Rasm va video bilan ishlashning eng asosiy vositalari. Bu bosqich — barcha keyingi bilimlarning poydevori.</p>
+      <ol class="days">
+        <li><input type="checkbox" id="d1"><label for="d1"><span class="d">Kun 01</span>O'rnatish (<code>pip install opencv-python</code>), rasm o'qish/ko'rsatish/saqlash — <code>imread</code>, <code>imshow</code>, <code>imwrite</code>, rasm xossalari (<code>shape</code>, <code>size</code>)</label></li>
+        <li><input type="checkbox" id="d2"><label for="d2"><span class="d">Kun 02</span>Video va kamera bilan ishlash — <code>VideoCapture</code>, <code>waitKey</code>, real-time sikl, video faylni o'qish</label></li>
+        <li><input type="checkbox" id="d3"><label for="d3"><span class="d">Kun 03</span>Rang fazolari — BGR, GRAY, HSV, RGB va ular orasida <code>cvtColor</code> orqali o'tish</label></li>
+        <li><input type="checkbox" id="d4"><label for="d4"><span class="d">Kun 04</span>Shakllar chizish — <code>rectangle</code>, <code>circle</code>, <code>line</code>, <code>putText</code>, koordinata tizimini tushunish</label></li>
+        <li><input type="checkbox" id="d5"><label for="d5"><span class="d">Kun 05</span>Transformatsiyalar — <code>resize</code>, crop (NumPy slicing), <code>rotate</code>, <code>flip</code>, siljitish (translation)</label></li>
+        <li><input type="checkbox" id="d6"><label for="d6"><span class="d">Kun 06</span>Filtrlash — <code>blur</code>, <code>GaussianBlur</code>, <code>medianBlur</code>, <code>bilateralFilter</code> va sharpening (<code>filter2D</code>)</label></li>
+        <li><input type="checkbox" id="d7"><label for="d7"><span class="d">Kun 07</span>Takrorlash + amaliyot kuni</label></li>
+      </ol>
+      <div class="project-pair">
+        <div class="project op-project">
+          <span class="pi">1.1<span class="diff">SODDA</span></span>
+          <div>
+            <h4>Rasm Tahrirlovchi (Image Editor CLI)</h4>
+            <p>Foydalanuvchi rasm yuklaydi, menyu orqali grayscale, blur, resize amallarini tanlab qo'llaydi, natijani saqlaydi.</p>
+          </div>
+        </div>
+        <div class="project op-project">
+          <span class="pi">1.2<span class="diff">O'RTA-QIYIN</span></span>
+          <div>
+            <h4>Qalam Chizig'i Effekti (Pencil Sketch)</h4>
+            <p>Rasmni "qo'lda chizilgan" effektga aylantiruvchi dastur — grayscale + invert + blur + divide-blend usullarini birlashtirish orqali.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- PHASE 2 -->
+  <div class="section-label">Bosqich 02</div>
+  <details class="phase" id="phase-2">
+    <summary>
+      <div class="ph-num corner-box" style="color:var(--opencv);background:var(--opencv-dim);">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        02
+      </div>
+      <div class="ph-head">
+        <div class="ph-title">OpenCV — O'rta daraja</div>
+        <div class="ph-sub">
+          <span class="tag tag-opencv">OpenCV</span>
+          <span class="sep">·</span> 1.5 hafta <span class="sep">·</span> Kun 8–15
+        </div>
+      </div>
+      <div class="chev">+</div>
+    </summary>
+    <div class="phase-body">
+      <p class="phase-desc">Obyekt aniqlashning klassik usullari — bu bilimlar keyinchalik YOLO va face_recognition'ning "nega kerakligini" tushunishga yordam beradi.</p>
+      <ol class="days">
+        <li><input type="checkbox" id="d8"><label for="d8"><span class="d">Kun 08</span>Thresholding — binary, adaptive threshold, Otsu usuli</label></li>
+        <li><input type="checkbox" id="d9"><label for="d9"><span class="d">Kun 09</span>Chekka aniqlash — Canny edge detection, Sobel va Laplacian gradientlari</label></li>
+        <li><input type="checkbox" id="d10"><label for="d10"><span class="d">Kun 10</span>Konturlar — <code>findContours</code>, <code>drawContours</code>, maydon/perimetr hisoblash</label></li>
+        <li><input type="checkbox" id="d11"><label for="d11"><span class="d">Kun 11</span>Morfologik operatsiyalar — erosion, dilation, opening, closing</label></li>
+        <li><input type="checkbox" id="d12"><label for="d12"><span class="d">Kun 12</span>Maskalash va bitwise amallar — AND, OR, XOR, NOT</label></li>
+        <li><input type="checkbox" id="d13"><label for="d13"><span class="d">Kun 13</span>Haar Cascade orqali yuz/ko'z aniqlash (klassik usul)</label></li>
+        <li><input type="checkbox" id="d14"><label for="d14"><span class="d">Kun 14</span>HSV + <code>inRange</code> orqali rang bo'yicha obyekt kuzatish</label></li>
+        <li><input type="checkbox" id="d15"><label for="d15"><span class="d">Kun 15</span>Takrorlash + amaliyot kuni</label></li>
+      </ol>
+      <div class="project-pair">
+        <div class="project op-project">
+          <span class="pi">2.1<span class="diff">SODDA</span></span>
+          <div>
+            <h4>Rangli Obyekt Kuzatuvchi</h4>
+            <p>Kamera orqali real vaqtda tanlangan rangdagi narsani aniqlab, atrofiga avtomatik ramka chizadigan dastur.</p>
+          </div>
+        </div>
+        <div class="project op-project">
+          <span class="pi">2.2<span class="diff">O'RTA-QIYIN</span></span>
+          <div>
+            <h4>Hujjat Skaneri (Document Scanner)</h4>
+            <p>Rasmdagi qog'oz/hujjatning 4 burchagini konturlar orqali topib, perspektivani avtomatik tekislaydigan (bird's-eye view) dastur.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- PHASE 3 -->
+  <div class="section-label">Bosqich 03</div>
+  <details class="phase" id="phase-3">
+    <summary>
+      <div class="ph-num corner-box" style="color:var(--cvzone);background:var(--cvzone-dim);">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        03
+      </div>
+      <div class="ph-head">
+        <div class="ph-title">cvzone — Tezkor CV vositalari</div>
+        <div class="ph-sub">
+          <span class="tag tag-cvzone">cvzone</span>
+          <span class="sep">·</span> 1 hafta <span class="sep">·</span> Kun 16–22
+        </div>
+      </div>
+      <div class="chev">+</div>
+    </summary>
+    <div class="phase-body">
+      <p class="phase-desc">OpenCV + MediaPipe'ni soddalashtiruvchi kutubxona — qo'l, yuz va tana harakatlarini oson aniqlash.</p>
+      <ol class="days">
+        <li><input type="checkbox" id="d16"><label for="d16"><span class="d">Kun 16</span>O'rnatish (<code>cvzone</code>, <code>mediapipe</code>), HandTrackingModule bilan tanishish</label></li>
+        <li><input type="checkbox" id="d17"><label for="d17"><span class="d">Kun 17</span>Barmoqlarni sanash (<code>fingersUp</code>), ikki nuqta orasidagi masofani o'lchash</label></li>
+        <li><input type="checkbox" id="d18"><label for="d18"><span class="d">Kun 18</span>FaceDetectionModule — tezkor yuz aniqlash</label></li>
+        <li><input type="checkbox" id="d19"><label for="d19"><span class="d">Kun 19</span>FaceMeshModule — 468 nuqtali yuz to'ri, mimika kuzatish</label></li>
+        <li><input type="checkbox" id="d20"><label for="d20"><span class="d">Kun 20</span>PoseModule — tana skeleti (bo'g'imlar) aniqlash</label></li>
+        <li><input type="checkbox" id="d21"><label for="d21"><span class="d">Kun 21</span>UI vositalari — <code>putTextRect</code>, <code>cornerRect</code> bilan chiroyli interfeys yasash</label></li>
+        <li><input type="checkbox" id="d22"><label for="d22"><span class="d">Kun 22</span>Takrorlash + amaliyot kuni</label></li>
+      </ol>
+      <div class="project-pair">
+        <div class="project cv-project">
+          <span class="pi">3.1<span class="diff">SODDA</span></span>
+          <div>
+            <h4>Qo'l Bilan Ovoz Boshqaruvi</h4>
+            <p>Bosh va ko'rsatkich barmoq orasidagi masofani o'lchab, shu asosda kompyuter tovushini real vaqtda boshqarish.</p>
+          </div>
+        </div>
+        <div class="project cv-project">
+          <span class="pi">3.2<span class="diff">O'RTA-QIYIN</span></span>
+          <div>
+            <h4>Virtual Chizish Taxtasi (Air Canvas)</h4>
+            <p>Ko'rsatkich barmoq harakati bilan ekranda "havoda chizish", turli imo-ishoralar orqali rang tanlash va tozalash (clear) funksiyasi bilan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- PHASE 4 -->
+  <div class="section-label">Bosqich 04</div>
+  <details class="phase" id="phase-4">
+    <summary>
+      <div class="ph-num corner-box" style="color:var(--face);background:var(--face-dim);">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        04
+      </div>
+      <div class="ph-head">
+        <div class="ph-title">Face Recognition — Yuzni tanish</div>
+        <div class="ph-sub">
+          <span class="tag tag-face">face_recognition</span>
+          <span class="sep">·</span> 1 hafta <span class="sep">·</span> Kun 23–29
+        </div>
+      </div>
+      <div class="chev">+</div>
+    </summary>
+    <div class="phase-body">
+      <p class="phase-desc">"Bu qanaqa yuz" (detection) emas, balki "bu — aynan KIM" (recognition) darajasiga o'tish.</p>
+      <ol class="days">
+        <li><input type="checkbox" id="d23"><label for="d23"><span class="d">Kun 23</span>O'rnatish (dlib bog'liqligi bilan), "face encoding" tushunchasi nima ekanini o'rganish</label></li>
+        <li><input type="checkbox" id="d24"><label for="d24"><span class="d">Kun 24</span>Rasmdan yuzni aniqlash va kodlash — <code>face_locations</code>, <code>face_encodings</code></label></li>
+        <li><input type="checkbox" id="d25"><label for="d25"><span class="d">Kun 25</span>Ikki yuzni solishtirish — <code>compare_faces</code>, <code>face_distance</code></label></li>
+        <li><input type="checkbox" id="d26"><label for="d26"><span class="d">Kun 26</span>Bir nechta odamning "yuz-kodlari" bazasini yaratish (pickle/json orqali saqlash)</label></li>
+        <li><input type="checkbox" id="d27"><label for="d27"><span class="d">Kun 27</span>Real-time kamera orqali yuzni tanish tizimi</label></li>
+        <li><input type="checkbox" id="d28"><label for="d28"><span class="d">Kun 28</span>Optimallashtirish — <code>model="hog"</code> vs <code>"cnn"</code>, kadr o'lchamini kichraytirib tezlashtirish</label></li>
+        <li><input type="checkbox" id="d29"><label for="d29"><span class="d">Kun 29</span>Takrorlash + amaliyot kuni</label></li>
+      </ol>
+      <div class="project-pair">
+        <div class="project fc-project">
+          <span class="pi">4.1<span class="diff">SODDA</span></span>
+          <div>
+            <h4>Yuzni Tanib Salomlashuvchi Dastur</h4>
+            <p>Kamera bitta oldindan ro'yxatga olingan odamni tanib, ekranga ismi bilan salomlashuvchi matn chiqaradi.</p>
+          </div>
+        </div>
+        <div class="project fc-project">
+          <span class="pi">4.2<span class="diff">O'RTA-QIYIN</span></span>
+          <div>
+            <h4>Aqlli Davomat (Attendance) Tizimi</h4>
+            <p>Bir nechta odamni bir vaqtda tanib, ismi va vaqtini CSV'ga yozadigan, notanish yuz aniqlansa alohida ogohlantiruvchi to'liq tizim.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- PHASE 5 -->
+  <div class="section-label">Bosqich 05</div>
+  <details class="phase" id="phase-5">
+    <summary>
+      <div class="ph-num corner-box" style="color:var(--yolo);background:var(--yolo-dim);">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        05
+      </div>
+      <div class="ph-head">
+        <div class="ph-title">YOLO — Zamonaviy obyekt aniqlash</div>
+        <div class="ph-sub">
+          <span class="tag tag-yolo">YOLO / Ultralytics</span>
+          <span class="sep">·</span> ~2 hafta <span class="sep">·</span> Kun 30–40
+        </div>
+      </div>
+      <div class="chev">+</div>
+    </summary>
+    <div class="phase-body">
+      <p class="phase-desc">Deep learning asosidagi zamonaviy obyekt aniqlash — tayyor modeldan foydalanishdan, o'z datasetingiz bilan o'qitishgacha.</p>
+      <ol class="days">
+        <li><input type="checkbox" id="d30"><label for="d30"><span class="d">Kun 30</span>Nazariya — YOLO qanday ishlaydi (bounding box, confidence, class), versiyalar tarixi</label></li>
+        <li><input type="checkbox" id="d31"><label for="d31"><span class="d">Kun 31</span>Ultralytics o'rnatish, tayyor (pretrained) model bilan rasmda obyekt aniqlash</label></li>
+        <li><input type="checkbox" id="d32"><label for="d32"><span class="d">Kun 32</span>Video va real-time kamerada YOLO ishlatish</label></li>
+        <li><input type="checkbox" id="d33"><label for="d33"><span class="d">Kun 33</span>Natijalarni qayta ishlash — class, confidence, koordinatalarni koddan ajratib olish</label></li>
+        <li><input type="checkbox" id="d34"><label for="d34"><span class="d">Kun 34</span>Custom dataset tayyorlash — Roboflow orqali rasm yig'ish va annotatsiya (labeling)</label></li>
+        <li><input type="checkbox" id="d35"><label for="d35"><span class="d">Kun 35</span>YOLO'ni o'z datasetingiz bilan qayta o'qitish (fine-tuning / training)</label></li>
+        <li><input type="checkbox" id="d36"><label for="d36"><span class="d">Kun 36</span>Modelni baholash — mAP, precision, recall tushunchalari</label></li>
+        <li><input type="checkbox" id="d37"><label for="d37"><span class="d">Kun 37</span>Obyektlarni kuzatish (tracking) — ByteTrack/BoT-SORT bilan YOLO'ni birlashtirish</label></li>
+        <li><input type="checkbox" id="d38"><label for="d38"><span class="d">Kun 38</span>YOLO'ning segmentatsiya va pose (poza) modellari bilan tanishish</label></li>
+        <li><input type="checkbox" id="d39"><label for="d39"><span class="d">Kun 39</span>Modelni optimallashtirish — ONNX eksport, tezlikni oshirish</label></li>
+        <li><input type="checkbox" id="d40"><label for="d40"><span class="d">Kun 40</span>Takrorlash + amaliyot kuni</label></li>
+      </ol>
+      <div class="project-pair">
+        <div class="project yl-project">
+          <span class="pi">5.1<span class="diff">SODDA</span></span>
+          <div>
+            <h4>Odam/Mashina Sanagich</h4>
+            <p>Tayyor (pretrained) YOLO modeli orqali kamera/videodagi odam yoki mashinalarni real vaqtda sanab, ekranga soni chiqadigan dastur.</p>
+          </div>
+        </div>
+        <div class="project yl-project">
+          <span class="pi">5.2<span class="diff">O'RTA-QIYIN</span></span>
+          <div>
+            <h4>Maxsus Obyekt Detektori</h4>
+            <p>O'zingiz tanlagan maxsus obyekt uchun (masalan, himoya kaskasi) custom dataset yig'ib, YOLO'ni shu obyektni aniqlashga qayta o'qitish.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- PHASE 6 -->
+  <div class="section-label">Bosqich 06</div>
+  <details class="phase" id="phase-6">
+    <summary>
+      <div class="ph-num corner-box" style="color:var(--docker);background:var(--docker-dim);">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        06
+      </div>
+      <div class="ph-head">
+        <div class="ph-title">Docker & Docker-Compose — Asoslar</div>
+        <div class="ph-sub">
+          <span class="tag tag-docker">Docker</span>
+          <span class="sep">·</span> 5 kun <span class="sep">·</span> Boshlang'ich daraja
+        </div>
+      </div>
+      <div class="chev">+</div>
+    </summary>
+    <div class="phase-body">
+      <p class="phase-desc">
+        Chuqur DevOps emas — faqat loyihalaringizni "quti"ga (konteyner) joylab, Dockerfile yoza olish
+        va docker-compose orqali 1–2 xizmatni birga ishga tushira olish darajasi. Aynan shu daraja
+        ko'pchilik loyiha uchun yetarli.
+      </p>
+      <ol class="days">
+        <li><input type="checkbox" id="d55"><label for="d55"><span class="d">Kun 55</span>Docker o'rnatish, <b>image</b> vs <b>container</b> farqi, tayyor image'ni ishga tushirish (<code>docker run nginx</code>)</label></li>
+        <li><input type="checkbox" id="d56"><label for="d56"><span class="d">Kun 56</span>O'z <code>Dockerfile</code> yozish — oddiy Python dasturni image qilib "qadoqlash"</label></li>
+        <li><input type="checkbox" id="d57"><label for="d57"><span class="d">Kun 57</span><code>docker build</code>, <code>docker run -p</code> (port mapping), asosiy buyruqlar (<code>ps</code>, <code>stop</code>, <code>logs</code>, <code>exec -it</code>)</label></li>
+        <li><input type="checkbox" id="d58"><label for="d58"><span class="d">Kun 58</span><code>docker-compose.yml</code> yozish — 2 ta xizmatni (masalan, web + Postgres) bitta faylda tasvirlash</label></li>
+        <li><input type="checkbox" id="d59"><label for="d59"><span class="d">Kun 59</span>Amaliyot — <code>docker-compose up</code> bilan ikkita serverni (web + baza) birga ishga tushirish, to'xtatish (<code>down</code>)</label></li>
+      </ol>
+      <div class="project-pair">
+        <div class="project dk-project">
+          <span class="pi">6.1<span class="diff">SODDA</span></span>
+          <div>
+            <h4>Bitta Skriptni Konteynerlashtirish</h4>
+            <p>Oddiy Python skriptga Dockerfile yozib, image qilib "quti"ga solish va <code>docker run</code> orqali istalgan kompyuterda ishga tushirish.</p>
+          </div>
+        </div>
+        <div class="project dk-project">
+          <span class="pi">6.2<span class="diff">O'RTA-QIYIN</span></span>
+          <div>
+            <h4>Konteynerlashtirilgan Mini-Server</h4>
+            <p>Flask/FastAPI dasturini Dockerfile bilan qadoqlab, docker-compose orqali web-server + ma'lumotlar bazasini (Postgres/Redis) birga ishga tushirish.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- PHASE 7 -->
+  <div class="section-label">Bosqich 07</div>
+  <details class="phase" id="phase-7">
+    <summary>
+      <div class="ph-num corner-box" style="color:var(--transformers);background:var(--transformers-dim);">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        07
+      </div>
+      <div class="ph-head">
+        <div class="ph-title">Transformers (Hugging Face) — O'rta daraja</div>
+        <div class="ph-sub">
+          <span class="tag tag-transformers">Transformers</span>
+          <span class="sep">·</span> 7 kun <span class="sep">·</span> Boshlang'ich → O'rta daraja
+        </div>
+      </div>
+      <div class="chev">+</div>
+    </summary>
+    <div class="phase-body">
+      <p class="phase-desc">
+        Maqsad — noldan model qurish emas, balki tayyor NLP/audio modellarni ishonchli tushunib,
+        loyihalarga ulay olish darajasi (masalan, ovozli savol-javob, matn xulosasi).
+      </p>
+      <ol class="days">
+        <li><input type="checkbox" id="d60"><label for="d60"><span class="d">Kun 60</span>O'rnatish, <code>pipeline()</code> bilan tanishish — sentiment-analysis, text-generation, image-classification</label></li>
+        <li><input type="checkbox" id="d61"><label for="d61"><span class="d">Kun 61</span><b>Tokenizer</b> tushunchasi — matn qanday raqamlarga (token) aylantirilishi, <code>AutoTokenizer</code></label></li>
+        <li><input type="checkbox" id="d62"><label for="d62"><span class="d">Kun 62</span><code>AutoModel</code> klasslari — model va tokenizerni alohida, qo'lda boshqarish</label></li>
+        <li><input type="checkbox" id="d63"><label for="d63"><span class="d">Kun 63</span><b>Whisper</b> orqali audio-to-text (nutqni matnga aylantirish) amaliyoti</label></li>
+        <li><input type="checkbox" id="d64"><label for="d64"><span class="d">Kun 64</span>Hugging Face Hub'dan model qidirish, model card o'qishni o'rganish, litsenziya/hajmga e'tibor berish</label></li>
+        <li><input type="checkbox" id="d65"><label for="d65"><span class="d">Kun 65</span>Oddiy fine-tuning tushunchasi — <code>Trainer</code> klassi bilan yuzaki tanishish (chuqur emas, faqat mantiqni tushunish)</label></li>
+        <li><input type="checkbox" id="d66"><label for="d66"><span class="d">Kun 66</span>Takrorlash + amaliyot kuni</label></li>
+      </ol>
+      <div class="project-pair">
+        <div class="project tf-project">
+          <span class="pi">7.1<span class="diff">SODDA</span></span>
+          <div>
+            <h4>Matn Kayfiyatini Aniqlovchi Mini-Dastur</h4>
+            <p><code>pipeline("sentiment-analysis")</code> orqali foydalanuvchi kiritgan matnning ijobiy/salbiy ekanini aniqlaydigan oddiy CLI dastur.</p>
+          </div>
+        </div>
+        <div class="project tf-project">
+          <span class="pi">7.2<span class="diff">O'RTA-QIYIN</span></span>
+          <div>
+            <h4>Ovozli Savol-Javob Moduli</h4>
+            <p>Whisper orqali ovozni matnga aylantirib, natijani xulosalash/kayfiyatini aniqlash uchun boshqa pipeline'ga uzatuvchi kichik modul — "Ko'rish Yordamchisi" loyihasiga ulanadi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+</main>
+
+<footer>
+  <p class="fmono">// eslatma</p>
+  <p>Har bir mini-loyihani tugatgach, kodni GitHub'ga joylang — bu roadmapning eng muhim qismi, chunki bitirilgan loyihalar to'plami portfolio bo'ladi.</p>
+  <p>Kunlik tempni saqlab bo'lmasa — muammo emas, tartibni buzmang, faqat sur'atni sekinlashtiring.</p>
+  <p>Barcha bosqichlarni tugatgach, xohlasangiz, eng yoqqan 2-3 ta "o'rtadan qiyinroq" loyihani birlashtirib, kattaroq bitta portfolio loyihasi qilish ham yaxshi keyingi qadam bo'lishi mumkin.</p>
+</footer>
+
+</body>
+</html>
